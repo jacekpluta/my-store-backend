@@ -1,6 +1,8 @@
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+
 const Mutation = {
-  async createItem(paret, args, ctx, info) {
-    console.log(args);
+  async createItem(parrent, args, ctx, info) {
     const item = await ctx.db.mutation.createItem(
       {
         data: {
