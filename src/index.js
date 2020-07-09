@@ -7,16 +7,16 @@ const { db } = require("./db");
 
 const server = createServer();
 
-//express middleware to handle coockie JWT
+//express middleware to handle cookies JWT
 server.express.use(cookieParser());
 
 //decode JWT for user ID
 server.express.use((req, res, next) => {
   const token = req.cookies.token;
   if (token) {
-    const { userId } = jwt.verify(token, process.env.APP_SECRET);
-    console.log(userId);
-    //userId onto req for other requests
+    const userId = jwt.verify(token, process.env.APP_SECRET);
+
+    //set userId onto reqest for all other requests
     req.userId = userId;
   }
   next();

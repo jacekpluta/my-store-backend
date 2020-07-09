@@ -60,11 +60,38 @@ const Mutation = {
     //JWT TOKEN
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
+    //set cookie
     ctx.response.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 365,
     });
-    console.log("coooooooooooooookie", ctx.response.cookie);
+
+    return user;
+  },
+
+  async signIn(parrent, { email, password }, ctx, info) {
+    email = args.email.toLowerCase();
+
+    //checl for user with that email
+    const user = await ctx.db.query.user({ where: { email: email } });
+    if (!user) {
+      throw new Error("No user found for that email");
+    }
+
+    //check if password is valid
+    const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      throw new Error("Invalid password");
+    }
+
+    //JWT TOKEN
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
+
+    //set cookie
+    ctx.response.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365,
+    });
 
     return user;
   },

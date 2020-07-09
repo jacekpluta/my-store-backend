@@ -13,7 +13,9 @@ type Mutation {
 
   deleteItem(id: ID!): Item
 
-  signUp(email: String!, password: String, name: String!): User!
+  signUp(email: String!, password: String!, name: String!): User!
+
+  signIn(email: String!, password: String!): User!
 }
 
 type Query {
@@ -25,5 +27,5 @@ type Query {
   ): [Item]!
   item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
-  me: User
+  user: User
 }
