@@ -1,13 +1,22 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { randomBytes } = require("crypto");
-const { promisify } = require("util");
+
+const { transport, makeEmail } = require("../mail");
 
 const Mutation = {
   async createItem(parrent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      throw new Error("You must be logged in!");
+    }
+
     const item = await ctx.db.mutation.createItem(
       {
         data: {
+          // relationshop between an item and user
+          user: {
+            connect: { id: ctx.request.userId.userId },
+          },
           ...args,
         },
       },
@@ -108,7 +117,7 @@ const Mutation = {
   async requestReset(parrent, args, ctx, info) {
     email = args.email.toLowerCase();
 
-    //checl for user with that email
+    //check for user with that email
     const user = await ctx.db.query.user({ where: { email: email } });
     if (!user) {
       throw new Error("No user found for that email");
@@ -120,6 +129,16 @@ const Mutation = {
     const res = await ctx.db.mutation.updateUser({
       where: { email: email },
       data: { resetToken: resetToken, resetTokenExpiry: resetTokenExpiry },
+    });
+
+    //email reset token
+    const mailRes = await transport.sendMail({
+      from: "jacek@myshop.com",
+      to: user.email,
+      subject: "Your password reset link - MyShop",
+      html: makeEmail(
+        `Your password reset token: \n\n <a href="${process.env.FRONTEND_URL}/resetpassword?resetToken=${resetToken}">CLICK HERE</a>`
+      ),
     });
 
     return { message: "Reseted" };
