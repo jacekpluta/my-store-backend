@@ -42,10 +42,28 @@ const Mutation = {
   },
 
   async deleteItem(parrent, args, ctx, info) {
-    const where = { id: args.id };
+    const currentUserId = ctx.request.userId.userId;
+    if (!currentUserId) {
+      throw new Error("You must be logging in to do that");
+    }
 
-    const item = await ctx.db.query.item({ where }, `{id, title}`);
-    return ctx.db.mutation.deleteItem({ where }, info);
+    //finding item
+    const item = await ctx.db.query.item(
+      { where: { id: args.id } },
+      `{id title user {id}}`
+    );
+    const deletedItemId = item.user.id;
+
+    if (deletedItemId !== currentUserId) {
+      throw new Error("You don't have permissions to delete that item");
+    }
+    //check for permissions
+    const currentUserPermissions = ctx.request.user.permissions;
+    if (currentUserPermissions.includes("ADMIN" || "ITEMDELETE")) {
+      return ctx.db.mutation.deleteItem({ where: { id: args.id } }, info);
+    } else {
+      throw new Error("You don't have permissions to delete that item");
+    }
   },
 
   async signUp(parrent, args, ctx, info) {
@@ -56,6 +74,7 @@ const Mutation = {
     const permission = {
       set: "USER",
     };
+
     const user = await ctx.db.mutation.createUser(
       {
         data: {
@@ -177,6 +196,42 @@ const Mutation = {
     });
 
     return updatedUser;
+  },
+  async updatePermissions(parrent, args, ctx, info) {
+    if (!ctx.request.userId.userId) {
+      throw new Error("You must be logging in to do that");
+    }
+
+    //check for user with that email
+    const user = await ctx.db.query.user(
+      {
+        where: { id: ctx.request.userId.userId },
+      },
+      info
+    );
+
+    //check for permission
+    const permissionsNeeded = ["ADMIN", "PERRMISSIONUPDATE"];
+
+    const matchedPermissions = user.permissions.filter((permissionTheyHave) =>
+      permissionsNeeded.includes(permissionTheyHave)
+    );
+
+    if (!matchedPermissions.length) {
+      throw new Error("You do not have sufficient permissions");
+    }
+
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          permissions: {
+            set: args.permissions,
+          },
+        },
+        where: { id: args.userId },
+      },
+      info
+    );
   },
 };
 

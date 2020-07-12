@@ -15,6 +15,8 @@ type User {
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission]  @scalarList(strategy: RELATION)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
 }
 
 type Item {
@@ -28,3 +30,5 @@ type Item {
   updatedAt: DateTime! @updatedAt
   user: User!
 }
+
+

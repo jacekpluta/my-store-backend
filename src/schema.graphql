@@ -30,18 +30,28 @@ type Mutation {
     password: String!
     confirmPassword: String!
   ): User!
+
+  updatePermissions(permissions: [Permission], userId: ID!): User
 }
 
 type Query {
+  item(where: ItemWhereUniqueInput!): Item
   items(
     where: ItemWhereInput
     orderBy: ItemOrderByInput
     skip: Int
     first: Int
   ): [Item]!
-  item(where: ItemWhereUniqueInput!): Item
   itemsConnection(where: ItemWhereInput): ItemConnection!
+
   user: User
+  users(
+    where: UserWhereInput
+    orderBy: UserOrderByInput
+    skip: Int
+    first: Int
+  ): [User]!
+  usersConnection(where: UserWhereInput): UserConnection!
 }
 
 type User {
