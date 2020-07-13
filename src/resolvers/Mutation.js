@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { randomBytes } = require("crypto");
 
 const { transport, makeEmail } = require("../mail");
+const { user } = require("./Query");
 
 const Mutation = {
   async createItem(parrent, args, ctx, info) {
@@ -197,15 +198,17 @@ const Mutation = {
 
     return updatedUser;
   },
+
   async updatePermissions(parrent, args, ctx, info) {
-    if (!ctx.request.userId.userId) {
+    const userId = ctx.request.userId.userId;
+    if (!userId) {
       throw new Error("You must be logging in to do that");
     }
 
     //check for user with that email
     const user = await ctx.db.query.user(
       {
-        where: { id: ctx.request.userId.userId },
+        where: { id: userId },
       },
       info
     );
@@ -232,6 +235,57 @@ const Mutation = {
       },
       info
     );
+  },
+
+  async addToCart(parrent, args, ctx, info) {
+    const userId = ctx.request.userId.userId;
+    if (!userId) {
+      throw new Error("You must be logging in to do that");
+    }
+
+    const [cartItem] = await ctx.db.query.cartItems({
+      where: { user: { id: userId }, item: { id: args.id } },
+    });
+
+    // //if alredy in the cart
+    if (cartItem) {
+      return ctx.db.mutation.updateCartItem(
+        {
+          data: { quantity: cartItem.quantity + 1 },
+          where: { id: cartItem.id },
+        },
+        info
+      );
+    }
+
+    return ctx.db.mutation.createCartItem({
+      data: {
+        item: {
+          connect: { id: args.id },
+        },
+        user: {
+          connect: { id: userId },
+        },
+      },
+      info,
+    });
+  },
+
+  async deleteCartItem(parrent, args, ctx, info) {
+    const userId = ctx.request.userId.userId;
+    if (!userId) {
+      throw new Error("You must be logging in to do that");
+    }
+
+    const [cartItem] = await ctx.db.query.cartItems({
+      where: { user: { id: userId }, item: { id: args.id } },
+    });
+
+    if (!cartItem) throw new Error("No CartItem found");
+    const cartItemId = cartItem.id;
+
+    console.log(cartItem);
+    return ctx.db.mutation.deleteCartItem({ where: { id: cartItemId } }, info);
   },
 };
 

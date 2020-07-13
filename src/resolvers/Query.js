@@ -10,7 +10,6 @@ const Query = {
   //   return items;
   // },
 
-  usersConnection: forwardTo("db"),
   // users: forwardTo("db"),
 
   async users(parent, args, ctx, info) {
