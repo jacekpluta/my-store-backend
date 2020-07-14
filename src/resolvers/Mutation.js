@@ -249,6 +249,7 @@ const Mutation = {
 
     // //if alredy in the cart
     if (cartItem) {
+      console.log("item already in cart");
       return ctx.db.mutation.updateCartItem(
         {
           data: { quantity: cartItem.quantity + 1 },
@@ -284,8 +285,16 @@ const Mutation = {
     if (!cartItem) throw new Error("No CartItem found");
     const cartItemId = cartItem.id;
 
-    console.log(cartItem);
     return ctx.db.mutation.deleteCartItem({ where: { id: cartItemId } }, info);
+  },
+
+  async deleteCartItemWhenItemDeleted(parrent, args, ctx, info) {
+    const userId = ctx.request.userId.userId;
+    if (!userId) {
+      throw new Error("You must be logging in to do that");
+    }
+
+    return ctx.db.mutation.deleteCartItem({ where: { id: args.id } }, info);
   },
 };
 

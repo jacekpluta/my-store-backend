@@ -35,6 +35,7 @@ type Mutation {
 
   addToCart(id: ID!): CartItem!
   deleteCartItem(id: ID!): CartItem
+  deleteCartItemWhenItemDeleted(id: ID!): CartItem
 }
 
 type Query {
