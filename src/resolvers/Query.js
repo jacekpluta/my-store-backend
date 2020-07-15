@@ -5,13 +5,6 @@ const Query = {
   items: forwardTo("db"),
   itemsConnection: forwardTo("db"),
 
-  // async items(parent, args, ctx, info) {
-  //   const items = await ctx.db.query.items();
-  //   return items;
-  // },
-
-  // users: forwardTo("db"),
-
   async users(parent, args, ctx, info) {
     if (!ctx.request.userId) {
       return null;
@@ -44,6 +37,44 @@ const Query = {
       );
       return user;
     }
+  },
+
+  async order(parent, args, ctx, info) {
+    //check for user
+    if (!ctx.request.userId) {
+      return null;
+    }
+
+    const order = await ctx.db.query.order({ where: { id: args.id } }, info);
+
+    const checkIfOwnsOrder = order.user.id === ctx.request.userId.userId;
+    const hasPermissionsToSeeOrder = ctx.request.user.permissions.includes(
+      "ADMIN"
+    );
+
+    if (!checkIfOwnsOrder && !hasPermissionsToSeeOrder) {
+      throw new Error("You dont have rights to see this");
+    }
+    return order;
+  },
+
+  async orders(parent, args, ctx, info) {
+    if (!ctx.request.userId) {
+      return null;
+    }
+
+    // const checkIfOwnsOrder = order.user.id === ctx.request.userId.userId;
+    // const hasPermissionsToSeeOrder = ctx.request.user.permissions.includes(
+    //   "ADMIN"
+    // );
+
+    // if (!checkIfOwnsOrder && !hasPermissionsToSeeOrder) {
+    //   throw new Error("You dont have rights to see this");
+    // }
+
+    const orders = await ctx.db.query.orders({ where: { id: args.id } }, info);
+
+    return orders;
   },
 };
 

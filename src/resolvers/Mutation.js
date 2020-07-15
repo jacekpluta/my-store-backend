@@ -343,16 +343,12 @@ const Mutation = {
         ...cartItem.item,
         quantity: cartItem.quantity,
         user: {
-          connect: { id: ctx.request.userId.userId },
+          connect: { id: userId },
         },
       };
       delete orderItem.id;
       return orderItem;
     });
-    console.log(charge.amount);
-    console.log(charge.id);
-    console.log(orderItems);
-    console.log(userId);
 
     const order = await ctx.db.mutation
       .createOrder({
@@ -363,7 +359,7 @@ const Mutation = {
             create: orderItems,
           },
           user: {
-            connect: { id: ctx.request.userId.userId },
+            connect: { id: userId },
           },
         },
       })
@@ -376,7 +372,7 @@ const Mutation = {
         id_in: cartItemIds,
       },
     });
-    console.log(order);
+
     return order;
   },
 };

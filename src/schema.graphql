@@ -59,6 +59,15 @@ type Query {
   ): [User]!
   usersConnection(where: UserWhereInput): UserConnection!
   cartItems(where: CartItemWhereInput): [CartItem]!
+
+  order(id: ID!): Order
+
+  orders(
+    where: OrderWhereInput
+    orderBy: OrderOrderByInput
+    skip: Int
+    first: Int
+  ): [Order]!
 }
 
 type User {
