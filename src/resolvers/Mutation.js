@@ -250,7 +250,6 @@ const Mutation = {
 
     // //if alredy in the cart
     if (cartItem) {
-      console.log("item already in cart");
       return ctx.db.mutation.updateCartItem(
         {
           data: { quantity: cartItem.quantity + 1 },

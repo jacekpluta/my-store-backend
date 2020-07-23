@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/jacek-10aa74/my-shop-prisma/dev
-# timestamp: Wed Jul 15 2020 02:01:53 GMT+0200 (GMT+02:00)
+# timestamp: Wed Jul 22 2020 18:54:21 GMT+0200 (GMT+02:00)
 
 type AggregateCartItem {
   count: Int!
