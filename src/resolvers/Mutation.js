@@ -61,7 +61,7 @@ const Mutation = {
     }
     //check for permissions
     const currentUserPermissions = ctx.request.user.permissions;
-    if (currentUserPermissions.includes("ADMIN" || "ITEMDELETE")) {
+    if (currentUserPermissions.includes("USER" || "ITEMDELETE")) {
       return ctx.db.mutation.deleteItem({ where: { id: args.id } }, info);
     } else {
       throw new Error("You don't have permissions to delete that item");
