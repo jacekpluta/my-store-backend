@@ -29,7 +29,10 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
-.variables.env
+.env.variables
+variables.env
+.env
+
 
 # Graphql
 *.graphql.d.ts
