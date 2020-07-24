@@ -47,7 +47,7 @@ server.start(
   {
     cors: {
       credentials: true,
-      origin: process.env.FRONTEND_URL,
+      origin: "http://my-shop-frontend.herokuapp.com",
     },
   },
   (deets) => {
