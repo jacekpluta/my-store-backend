@@ -49,9 +49,7 @@ server.start(
       credentials: true,
       origin: [
         "http://localhost:5000",
-        "https://my-shop-frontend.herokuapp.com",
         "http://my-shop-frontend.herokuapp.com",
-        "my-shop-frontend.herokuapp.com",
       ],
     },
   },
