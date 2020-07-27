@@ -158,7 +158,9 @@ const Mutation = {
       to: user.email,
       subject: "Your password reset link - MyShop",
       html: makeEmail(
-        `Your password reset token: \n\n <a href="${process.env.FRONTEND_URL}/resetpassword?resetToken=${resetToken}">CLICK HERE</a>`
+        `Your password reset token: \n\n <a href="${
+          process.env.FRONTEND_URL
+        }/resetpassword?resetToken=${resetToken}">CLICK HERE</a>`
       ),
     });
 

@@ -6,7 +6,6 @@ enum Permission {
   ITEMDELETE
   PERMISSIONUPDATE
 }
-
 type User {
   id: ID! @id
   name: String! @unique 
@@ -19,7 +18,6 @@ type User {
   updatedAt: DateTime! @updatedAt
   cart: [CartItem!]!
 }
-
 type Item {
   id: ID! @id
   title: String!
@@ -31,15 +29,12 @@ type Item {
   updatedAt: DateTime! @updatedAt
   user: User!
 }
-
-
 type CartItem {
   id: ID! @id
   quantity: Int! @default(value:1)
   item: Item 
   user: User! 
 }
-
 type OrderItem {
   id: ID! @id
   title: String!
@@ -50,7 +45,6 @@ type OrderItem {
   quantity: Int! @default(value:1)
   user: User
 }
-
 type Order {
   id: ID! @id
   items: [OrderItem!]!
