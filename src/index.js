@@ -43,32 +43,19 @@ server.express.use(async (req, res, next) => {
   next();
 });
 
-const options = {
-  port: 8000,
-  endpoint: "/graphql",
-  subscriptions: "/subscriptions",
-  playground: "/playground",
-};
-
-server.start(options, ({ port }) =>
-  console.log(
-    `Server started, listening on port ${port} for incoming requests.`
-  )
+server.start(
+  {
+    cors: {
+      credentials: true,
+      origin: [
+        "http://localhost:5000",
+        "https://my-shop-frontend.herokuapp.com",
+        "http://my-shop-frontend.herokuapp.com",
+        "my-shop-frontend.herokuapp.com",
+      ],
+    },
+  },
+  (deets) => {
+    console.log(`server running on ${deets.port}`);
+  }
 );
-
-// server.start(
-//   {
-//     cors: {
-//       credentials: true,
-//       origin: [
-//         "http://localhost:5000",
-//         "https://my-shop-frontend.herokuapp.com",
-//         "http://my-shop-frontend.herokuapp.com",
-//         "my-shop-frontend.herokuapp.com",
-//       ],
-//     },
-//   },
-//   (deets) => {
-//     console.log(`server running on ${deets.port}`);
-//   }
-// );
