@@ -42,19 +42,12 @@ server.express.use(async (req, res, next) => {
 
   next();
 });
-
+console.log(process.env.FRONTEND_URL);
 server.start(
   {
     cors: {
       credentials: true,
-      origin: [
-        process.env.FRONTEND_URL,
-        "https://my-shop-frontend.herokuapp.com",
-        "http://my-shop-frontend.herokuapp.com",
-        "https://my-shop-frontend.herokuapp.com/",
-        "http://my-shop-frontend.herokuapp.com/",
-        "my-shop-frontend.herokuapp.com",
-      ],
+      origin: process.env.FRONTEND_URL,
     },
   },
   (deets) => {
