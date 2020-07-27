@@ -48,10 +48,8 @@ server.start(
     cors: {
       credentials: true,
       origin: [
-        "http://localhost:5000",
+        process.env.FRONTEND_URL,
         "https://my-shop-frontend.herokuapp.com",
-        "http://my-shop-frontend.herokuapp.com",
-        "my-shop-frontend.herokuapp.com",
       ],
     },
   },
