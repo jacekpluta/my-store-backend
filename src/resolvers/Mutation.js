@@ -113,7 +113,7 @@ const Mutation = {
     //check if password is valid
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      throw new Error("Invalid password");
+      return null;
     }
 
     //JWT TOKEN

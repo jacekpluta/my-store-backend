@@ -1,8 +1,7 @@
- endpoint: ${env:PRISMA_ENDPOINT}
-# endpoint: https://my-shop-prod-f623aef984.herokuapp.com/backend/dev
-
+endpoint: https://my-shop-prod-f623aef984.herokuapp.com/backend/dev
 datamodel: datamodel.prisma
-secret: ${env:PRISMA_SECRET}
+secret: dsadasdsasasaasasas22
 hooks:
   post-deploy:
     - graphql get-schema -p prisma
+# endpoint: ${env:PRISMA_ENDPOINT}

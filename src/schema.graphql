@@ -19,7 +19,7 @@ type Mutation {
 
   signUp(email: String!, password: String!, name: String!): User!
 
-  signIn(email: String!, password: String!): User!
+  signIn(email: String!, password: String!): User
 
   signOut: SuccessMessage
 
@@ -76,4 +76,5 @@ type User {
   email: String!
   permissions: [Permission!]!
   cart: [CartItem!]!
+  orders: [OrderItem]
 }
