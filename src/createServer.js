@@ -1,9 +1,5 @@
 const { GraphQLServer } = require("graphql-yoga");
 
-// import { loadSchemaSync } from '@graphql-tools/load';
-// import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
-// import { addResolversToSchema } from '@graphql-tools/schema';
-
 const Mutation = require("./resolvers/Mutation");
 const Query = require("./resolvers/Query");
 

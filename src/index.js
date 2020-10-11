@@ -12,6 +12,7 @@ server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
   const token = req.cookies.token;
+  
   if (token) {
     //decode JWT for user ID
     const userId = jwt.verify(token, process.env.APP_SECRET);
@@ -49,7 +50,7 @@ server.start(
       credentials: true,
       origin: [
         process.env.FRONTEND_URL,
-        "https://my-shop-frontend.herokuapp.com",
+        "https://myshoppingplace.herokuapp.com",
       ],
     },
   },

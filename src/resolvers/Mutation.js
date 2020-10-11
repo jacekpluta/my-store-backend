@@ -1,13 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { randomBytes } = require("crypto");
-
 const { transport, makeEmail } = require("../mail");
-
 const stripe = require("../stripe");
 
 const Mutation = {
-  async createItem(parrent, args, ctx, info) {
+  async createItem(_parrent, args, ctx, info) {
     if (!ctx.request.userId) {
       throw new Error("You must be logged in!");
     }
@@ -27,7 +25,7 @@ const Mutation = {
     return item;
   },
 
-  updateItem(parrent, args, ctx, info) {
+  async updateItem(_parrent, args, ctx, info) {
     const updates = { ...args };
 
     delete updates.id;
@@ -43,7 +41,7 @@ const Mutation = {
     );
   },
 
-  async deleteItem(parrent, args, ctx, info) {
+  async deleteItem(_parrent, args, ctx, info) {
     const currentUserId = ctx.request.userId.userId;
     if (!currentUserId) {
       throw new Error("You must be logging in to do that");
@@ -69,20 +67,22 @@ const Mutation = {
   },
 
   async signUp(parrent, args, ctx, info) {
-    args.email = args.email.toLowerCase();
+    const email = args.email.toLowerCase();
+  
+    const name = args.name
 
     const password = await bcrypt.hash(args.password, 10);
 
     const permission = {
-      set: "USER",
+      set: "ADMIN",
     };
 
     const user = await ctx.db.mutation.createUser(
       {
         data: {
-          //name, email, password
-          ...args,
-          password: password,
+          name,
+          email,
+          password,
           permissions: permission,
         },
       },
@@ -106,6 +106,7 @@ const Mutation = {
 
     //checl for user with that email
     const user = await ctx.db.query.user({ where: { email: email } });
+
     if (!user) {
       throw new Error("No user found for that email");
     }
@@ -113,7 +114,7 @@ const Mutation = {
     //check if password is valid
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) {
-      return null;
+      throw new Error("Wrong password");
     }
 
     //JWT TOKEN
@@ -129,10 +130,9 @@ const Mutation = {
   },
 
   async signOut(parrent, args, ctx, info) {
-    //set cookie
     ctx.response.clearCookie("token");
 
-    return { message: "Bye!" };
+    return { message: "Sing out" };
   },
 
   async requestReset(parrent, args, ctx, info) {
@@ -153,7 +153,7 @@ const Mutation = {
     });
 
     //email reset token
-    const mailRes = await transport.sendMail({
+    await transport.sendMail({
       from: "jacek@myshop.com",
       to: user.email,
       subject: "Your password reset link - MyShop",
@@ -242,6 +242,7 @@ const Mutation = {
 
   async addToCart(parrent, args, ctx, info) {
     const userId = ctx.request.userId.userId;
+
     if (!userId) {
       throw new Error("You must be logging in to do that");
     }

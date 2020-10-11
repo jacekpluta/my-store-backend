@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/jacek-10aa74/my-shop-prisma/dev
-# timestamp: Wed Jul 22 2020 18:54:21 GMT+0200 (GMT+02:00)
+# source: https://my-shop-prod-f623aef984.herokuapp.com/backend/dev
+# timestamp: Sun Oct 11 2020 20:30:11 GMT+0200 (GMT+02:00)
 
 type AggregateCartItem {
   count: Int!
@@ -2327,6 +2327,5 @@ input UserWhereInput {
 
 input UserWhereUniqueInput {
   id: ID
-  name: String
   email: String
 }
