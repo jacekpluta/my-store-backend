@@ -1,4 +1,4 @@
-# import * from "./generated/prisma.graphql'
+# import * from './generated/prisma.graphql'
 
 type SuccessMessage {
   message: String
@@ -6,14 +6,25 @@ type SuccessMessage {
 
 type Mutation {
   createItem(
+    title: String!
+    description: String!
+    price: Int!
+    image: String!
+    largeImage: String!
+    gender: Gender!
+    brand: Brand!
+    category: Category!
+  ): Item!
+
+  updateItem(
+    id: ID!
     title: String
     description: String
     price: Int
-    image: String
-    largeImage: String
+    gender: Gender
+    brand: Brand
+    category: Category
   ): Item!
-
-  updateItem(id: ID!, title: String, description: String, price: Int): Item!
 
   deleteItem(id: ID!): Item
 
@@ -33,8 +44,10 @@ type Mutation {
 
   updatePermissions(permissions: [Permission], userId: ID!): User
 
-  addToCart(id: ID!): CartItem!
+  addToCart(id: ID!, quantity: Int!): CartItem!
+
   deleteCartItem(id: ID!): CartItem
+
   deleteCartItemWhenItemDeleted(id: ID!): CartItem
 
   createOrder(token: String!): Order!
@@ -48,6 +61,7 @@ type Query {
     skip: Int
     first: Int
   ): [Item]!
+
   itemsConnection(where: ItemWhereInput): ItemConnection!
 
   user: User

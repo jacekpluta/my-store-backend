@@ -1,4 +1,4 @@
-endpoint: https://my-shop-prod-f623aef984.herokuapp.com/backend/dev
+endpoint: https://eu1.prisma.sh/jacek-10aa74/my-shop-prisma/dev
 # https://eu1.prisma.sh/jacek-10aa74/my-shop-prisma/dev
 
 datamodel: datamodel.prisma
@@ -6,4 +6,7 @@ secret: dsadasdsasasaasasas22
 hooks:
   post-deploy:
     - graphql get-schema -p prisma
-# endpoint: ${env:PRISMA_ENDPOINT}
+
+generate:
+  - generator: graphql-schema
+    output: ./src/generated/prisma.graphql

@@ -1,7 +1,7 @@
 TO DO
 1. refetch pages after deleting or adding an item
-2. email
+2. creadicard checkout test
 
  const deleteCartUpdate = (cache, payload) => {
 
-     creadicard checkout test
+  

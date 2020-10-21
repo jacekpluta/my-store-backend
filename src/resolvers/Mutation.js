@@ -68,8 +68,8 @@ const Mutation = {
 
   async signUp(parrent, args, ctx, info) {
     const email = args.email.toLowerCase();
-  
-    const name = args.name
+
+    const name = args.name;
 
     const password = await bcrypt.hash(args.password, 10);
 
@@ -147,7 +147,7 @@ const Mutation = {
     const resetToken = await randomBytes(20).toString("hex");
     const resetTokenExpiry = Date.now() + 3600000;
 
-    const res = await ctx.db.mutation.updateUser({
+    await ctx.db.mutation.updateUser({
       where: { email: email },
       data: { resetToken: resetToken, resetTokenExpiry: resetTokenExpiry },
     });
@@ -244,7 +244,7 @@ const Mutation = {
     const userId = ctx.request.userId.userId;
 
     if (!userId) {
-      throw new Error("You must be logging in to do that");
+      throw new Error("You must be logged in to do that");
     }
 
     const [cartItem] = await ctx.db.query.cartItems({
@@ -255,7 +255,7 @@ const Mutation = {
     if (cartItem) {
       return ctx.db.mutation.updateCartItem(
         {
-          data: { quantity: cartItem.quantity + 1 },
+          data: { quantity: cartItem.quantity + args.quantity },
           where: { id: cartItem.id },
         },
         info
