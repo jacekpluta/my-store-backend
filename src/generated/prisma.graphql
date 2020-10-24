@@ -34,6 +34,7 @@ type CartItem {
   quantity: Int!
   item: Item
   user: User!
+  size: Int
 }
 
 type CartItemConnection {
@@ -47,6 +48,7 @@ input CartItemCreateInput {
   quantity: Int
   item: ItemCreateOneInput
   user: UserCreateOneWithoutCartInput!
+  size: Int
 }
 
 input CartItemCreateManyWithoutUserInput {
@@ -58,6 +60,7 @@ input CartItemCreateWithoutUserInput {
   id: ID
   quantity: Int
   item: ItemCreateOneInput
+  size: Int
 }
 
 type CartItemEdge {
@@ -70,11 +73,14 @@ enum CartItemOrderByInput {
   id_DESC
   quantity_ASC
   quantity_DESC
+  size_ASC
+  size_DESC
 }
 
 type CartItemPreviousValues {
   id: ID!
   quantity: Int!
+  size: Int
 }
 
 input CartItemScalarWhereInput {
@@ -100,6 +106,14 @@ input CartItemScalarWhereInput {
   quantity_lte: Int
   quantity_gt: Int
   quantity_gte: Int
+  size: Int
+  size_not: Int
+  size_in: [Int!]
+  size_not_in: [Int!]
+  size_lt: Int
+  size_lte: Int
+  size_gt: Int
+  size_gte: Int
   AND: [CartItemScalarWhereInput!]
   OR: [CartItemScalarWhereInput!]
   NOT: [CartItemScalarWhereInput!]
@@ -127,14 +141,17 @@ input CartItemUpdateInput {
   quantity: Int
   item: ItemUpdateOneInput
   user: UserUpdateOneRequiredWithoutCartInput
+  size: Int
 }
 
 input CartItemUpdateManyDataInput {
   quantity: Int
+  size: Int
 }
 
 input CartItemUpdateManyMutationInput {
   quantity: Int
+  size: Int
 }
 
 input CartItemUpdateManyWithoutUserInput {
@@ -157,6 +174,7 @@ input CartItemUpdateManyWithWhereNestedInput {
 input CartItemUpdateWithoutUserDataInput {
   quantity: Int
   item: ItemUpdateOneInput
+  size: Int
 }
 
 input CartItemUpdateWithWhereUniqueWithoutUserInput {
@@ -195,6 +213,14 @@ input CartItemWhereInput {
   quantity_gte: Int
   item: ItemWhereInput
   user: UserWhereInput
+  size: Int
+  size_not: Int
+  size_in: [Int!]
+  size_not_in: [Int!]
+  size_lt: Int
+  size_lte: Int
+  size_gt: Int
+  size_gte: Int
   AND: [CartItemWhereInput!]
   OR: [CartItemWhereInput!]
   NOT: [CartItemWhereInput!]

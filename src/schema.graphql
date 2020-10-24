@@ -44,7 +44,7 @@ type Mutation {
 
   updatePermissions(permissions: [Permission], userId: ID!): User
 
-  addToCart(id: ID!, quantity: Int!): CartItem!
+  addToCart(id: ID!, quantity: Int!, size: Int!): CartItem!
 
   deleteCartItem(id: ID!): CartItem
 

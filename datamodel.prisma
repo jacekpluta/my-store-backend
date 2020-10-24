@@ -60,6 +60,7 @@ type CartItem {
   quantity: Int! @default(value:1)
   item: Item 
   user: User! 
+  size: Int
 }
 type OrderItem {
   id: ID! @id

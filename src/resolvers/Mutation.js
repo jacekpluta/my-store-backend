@@ -242,17 +242,19 @@ const Mutation = {
 
   async addToCart(parrent, args, ctx, info) {
     const userId = ctx.request.userId.userId;
+    const itemId = args.id;
+    const size = args.size;
 
     if (!userId) {
       throw new Error("You must be logged in to do that");
     }
 
     const [cartItem] = await ctx.db.query.cartItems({
-      where: { user: { id: userId }, item: { id: args.id } },
+      where: { user: { id: userId }, item: { id: itemId } },
     });
 
     // //if alredy in the cart
-    if (cartItem) {
+    if (cartItem.size === size) {
       return ctx.db.mutation.updateCartItem(
         {
           data: { quantity: cartItem.quantity + args.quantity },
@@ -265,11 +267,12 @@ const Mutation = {
     return ctx.db.mutation.createCartItem({
       data: {
         item: {
-          connect: { id: args.id },
+          connect: { id: itemId },
         },
         user: {
           connect: { id: userId },
         },
+        size: args.size,
       },
       info,
     });
