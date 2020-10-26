@@ -51,7 +51,7 @@ server.start(
       origin: [
         process.env.FRONTEND_URL,
         "https://myshoppingplace.herokuapp.com",
-        "https://my-shopp.netlify.app/",
+        "https://my-shopp.netlify.app",
       ],
     },
   },
