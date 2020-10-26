@@ -12,7 +12,7 @@ server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
   const token = req.cookies.token;
-  
+
   if (token) {
     //decode JWT for user ID
     const userId = jwt.verify(token, process.env.APP_SECRET);
@@ -51,6 +51,7 @@ server.start(
       origin: [
         process.env.FRONTEND_URL,
         "https://myshoppingplace.herokuapp.com",
+        "https://my-shopp.netlify.app/",
       ],
     },
   },
