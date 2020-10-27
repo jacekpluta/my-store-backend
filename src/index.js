@@ -7,6 +7,10 @@ const db = require("./db");
 
 const server = createServer();
 
+server.get("/home", (req, res) => {
+  return res.send("Hello");
+});
+
 //express middleware to handle cookies JWT
 server.express.use(cookieParser());
 
