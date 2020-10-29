@@ -35,7 +35,8 @@ const Query = {
         { where: { id: ctx.request.userId } },
         info
       );
-      console.log(user);
+      console.log("user", user);
+      console.log("ctx.request.userId", ctx.request.userId);
       return user;
     }
   },
