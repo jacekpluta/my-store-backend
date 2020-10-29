@@ -24,17 +24,18 @@ const Query = {
   },
 
   async user(parent, args, ctx, info) {
-    //check for user
+    //check for user in request from server.express.use
     if (!ctx.request.userId) {
       return null;
     }
 
-    if (ctx.request.userId.userId) {
+    if (ctx.request.userId) {
       const user = await ctx.db.query.user(
         //take decoded userId from express middleware
-        { where: { id: ctx.request.userId.userId } },
+        { where: { id: ctx.request.userId } },
         info
       );
+      console.log(user);
       return user;
     }
   },

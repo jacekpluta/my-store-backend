@@ -1,10 +1,8 @@
 require("dotenv").config({ path: "variables.env" });
 var cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-
 const createServer = require("./createServer");
 const db = require("./db");
-
 const server = createServer();
 
 server.get("/home", (req, res) => {
@@ -12,6 +10,7 @@ server.get("/home", (req, res) => {
 });
 
 //express middleware to handle cookies JWT
+//parses Cookie header and populate req.cookies
 server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
@@ -22,7 +21,7 @@ server.express.use((req, res, next) => {
     const userId = jwt.verify(token, process.env.APP_SECRET);
 
     //set userId onto reqest for all other requests
-    req.userId = userId;
+    req.userId = userId.userId;
   }
   next();
 });
@@ -33,10 +32,10 @@ server.express.use(async (req, res, next) => {
     return next();
   }
 
-  //find user with logged user id
+  //if logged check if is in the base
   try {
     const user = await db.query.user(
-      { where: { id: req.userId.userId } },
+      { where: { id: req.userId } },
       "{id,permissions,email,name}"
     );
 
@@ -47,6 +46,12 @@ server.express.use(async (req, res, next) => {
 
   next();
 });
+
+// server.express.use(async (req, res, next) => {
+//   req.aaa = "aaa";
+
+//   next();
+// });
 
 server.start(
   {

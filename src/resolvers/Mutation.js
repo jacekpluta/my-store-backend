@@ -101,7 +101,7 @@ const Mutation = {
     return user;
   },
 
-  async signIn(parrent, { email, password }, ctx, info) {
+  async login(parrent, { email, password }, ctx, info) {
     email = email.toLowerCase();
 
     //checl for user with that email
