@@ -48,8 +48,8 @@ server.express.use(async (req, res, next) => {
 });
 
 server.express.use(async (req, res, next) => {
-  console.log(req.userId);
-  console.log(req.user);
+  // console.log(req.userId);
+  // console.log(req.user);
   next();
 });
 

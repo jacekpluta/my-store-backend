@@ -117,12 +117,12 @@ const Mutation = {
       throw new Error("Wrong password");
     }
 
-    //JWT TOKEN
+    //CREATE JWT TOKEN
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     //set cookie
     ctx.response.cookie("token", token, {
-      httpOnly: true,
+      httpOnly: false,
       maxAge: 1000 * 60 * 60 * 24 * 365,
     });
 
