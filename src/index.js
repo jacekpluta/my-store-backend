@@ -67,7 +67,7 @@ server.start(
         "https://myshoppingplace.herokuapp.com",
         "https://my-shopp.netlify.app",
       ],
-      allowedHeaders: [
+      allowedHeader: [
         "Content-Type",
         "Authorization",
         "X-Requested-With",
@@ -84,3 +84,11 @@ server.start(
     console.log(`server running on ${deets.port}`);
   }
 );
+
+// "Content-Type",
+// "Authorization",
+// "X-Requested-With",
+// "X-Forwarded-Proto",
+// "Cookie",
+// "Set-Cookie",
+// "*",
