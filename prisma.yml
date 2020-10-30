@@ -1,4 +1,6 @@
 endpoint: https://my-shop-prod-f623aef984.herokuapp.com/backend/dev
+
+# for testing
 # https://eu1.prisma.sh/jacek-10aa74/my-shop-prisma/dev
 
 datamodel: datamodel.prisma

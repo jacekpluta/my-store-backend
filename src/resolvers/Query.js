@@ -29,6 +29,9 @@ const Query = {
       return null;
     }
 
+    console.log("ctx.request", ctx.request);
+    console.log("ctx.request.userId", ctx.request.userId);
+
     if (ctx.request.userId) {
       const user = await ctx.db.query.user(
         //take decoded userId from express middleware
