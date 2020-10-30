@@ -15,7 +15,7 @@ server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
   const token = req.cookies.token;
-  console.log("tokennnnn", token);
+
   if (token) {
     //decode JWT for user ID
     const userId = jwt.verify(token, process.env.APP_SECRET);
@@ -48,8 +48,6 @@ server.express.use(async (req, res, next) => {
 });
 
 server.express.use(async (req, res, next) => {
-  // console.log(req.userId);
-  // console.log(req.user);
   next();
 });
 

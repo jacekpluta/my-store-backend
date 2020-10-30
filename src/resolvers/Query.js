@@ -24,8 +24,6 @@ const Query = {
   },
 
   async user(parent, args, ctx, info) {
-    console.log("ctx.request.userId", ctx.request.userId);
-
     //check for user in request from server.express.use
     if (!ctx.request.userId) {
       return null;
