@@ -9,19 +9,13 @@ server.get("/home", (req, res) => {
   return res.send("Hello");
 });
 
-// server.applyMiddleware({
-//   app,
-//   path: "/",
-//   cors: false, // disables the apollo-server-express cors to allow the cors middleware use
-// });
-
 //express middleware to handle cookies JWT
 //parses Cookie header and populate req.cookies
 server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
   const token = req.cookies.token;
-
+  console.log("tokennnnn", token);
   if (token) {
     //decode JWT for user ID
     const userId = jwt.verify(token, process.env.APP_SECRET);
@@ -58,6 +52,12 @@ server.express.use(async (req, res, next) => {
   // console.log(req.user);
   next();
 });
+
+// server.express.applyMiddleware({
+//   app,
+//   path: "/",
+//   cors: false, // disables the apollo-server-express cors to allow the cors middleware use
+// });
 
 server.start(
   {

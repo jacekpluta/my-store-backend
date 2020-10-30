@@ -24,7 +24,6 @@ const Query = {
   },
 
   async user(parent, args, ctx, info) {
-    console.log("ctx.request", ctx.request);
     console.log("ctx.request.userId", ctx.request.userId);
 
     //check for user in request from server.express.use
@@ -39,7 +38,6 @@ const Query = {
         info
       );
 
-      console.log("ctx.request.userId", ctx.request.userId);
       return user;
     }
   },

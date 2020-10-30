@@ -120,19 +120,13 @@ const Mutation = {
     //CREATE JWT TOKEN
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
-    console.log(token);
+    console.log("token", token);
     //set cookie
     ctx.response.cookie("token", token, {
       httpOnly: false,
       maxAge: 1000 * 60 * 60 * 24 * 365,
     });
 
-    console.log(
-      ctx.response.cookie("token", token, {
-        httpOnly: false,
-        maxAge: 1000 * 60 * 60 * 24 * 365,
-      })
-    );
     return user;
   },
 
