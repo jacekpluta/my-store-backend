@@ -130,7 +130,7 @@ const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     const options = {
-      // httpOnly: true,
+      httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
     };
 
