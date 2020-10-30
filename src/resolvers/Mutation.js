@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { randomBytes } = require("crypto");
 const { transport, makeEmail } = require("../mail");
 const stripe = require("../stripe");
+const { cookieOptions } = require("./cookieOptions");
 
 const Mutation = {
   async createItem(_parrent, args, ctx, info) {
@@ -93,14 +94,7 @@ const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     //set cookie
-    ctx.response.cookie("token", token, {
-      maxAge: 1000 * 60 * 60 * 24 * 365,
-    });
-
-    console.log(
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      ctx.response
-    );
+    ctx.response.cookie("token", token, cookieOptions);
 
     return user;
   },
@@ -129,22 +123,14 @@ const Mutation = {
     //CREATE JWT TOKEN
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
-    const options = {
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24,
-      secure: true,
-      // domain: "https://my-shopp.netlify.app",
-      sameSite: "None",
-    };
-
     //set cookie in browser
-    response.cookie("token", token, options);
+    response.cookie("token", token, cookieOptions);
 
     return user;
   },
 
   async signOut(parrent, args, ctx, info) {
-    ctx.response.clearCookie("token");
+    ctx.response.clearCookie("token", cookieOptions);
 
     return { message: "Sing out" };
   },
@@ -208,9 +194,7 @@ const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     //set cookie
-    ctx.response.cookie("token", token, {
-      maxAge: 1000 * 60 * 60 * 24 * 365,
-    });
+    ctx.response.cookie("token", token, cookieOptions);
 
     return updatedUser;
   },
