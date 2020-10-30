@@ -98,6 +98,11 @@ const Mutation = {
       maxAge: 1000 * 60 * 60 * 24 * 365,
     });
 
+    console.log(
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      ctx.response
+    );
+
     return user;
   },
 
@@ -134,6 +139,11 @@ const Mutation = {
 
     response.cookie("token", token, options);
 
+    console.log(
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      ctx.response
+    );
+
     // request.cookie("token", token, options);
 
     // //set cookie
@@ -146,10 +156,6 @@ const Mutation = {
   },
 
   async signOut(parrent, args, ctx, info) {
-    console.log(
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      ctx.response
-    );
     ctx.response.clearCookie("token");
 
     return { message: "Sing out" };
