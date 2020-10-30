@@ -9,11 +9,11 @@ server.get("/home", (req, res) => {
   return res.send("Hello");
 });
 
-server.applyMiddleware({
-  app,
-  path: "/",
-  cors: false, // disables the apollo-server-express cors to allow the cors middleware use
-});
+// server.applyMiddleware({
+//   app,
+//   path: "/",
+//   cors: false, // disables the apollo-server-express cors to allow the cors middleware use
+// });
 
 //express middleware to handle cookies JWT
 //parses Cookie header and populate req.cookies
