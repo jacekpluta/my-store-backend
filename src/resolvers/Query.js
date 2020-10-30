@@ -24,13 +24,13 @@ const Query = {
   },
 
   async user(parent, args, ctx, info) {
+    console.log("ctx.request", ctx.request);
+    console.log("ctx.request.userId", ctx.request.userId);
+
     //check for user in request from server.express.use
     if (!ctx.request.userId) {
       return null;
     }
-
-    console.log("ctx.request", ctx.request);
-    console.log("ctx.request.userId", ctx.request.userId);
 
     if (ctx.request.userId) {
       const user = await ctx.db.query.user(
