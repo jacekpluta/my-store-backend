@@ -56,6 +56,7 @@ server.express.use(async (req, res, next) => {
 //   path: "/",
 //   cors: false, // disables the apollo-server-express cors to allow the cors middleware use
 // });
+server.express.set("trust proxy", 1);
 
 server.start(
   {
@@ -66,6 +67,17 @@ server.start(
         "https://myshoppingplace.herokuapp.com",
         "https://my-shopp.netlify.app",
       ],
+      allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "X-Forwarded-Proto",
+        "Cookie",
+        "Set-Cookie",
+        "*",
+      ],
+      methods: "GET,POST",
+      optionsSuccessStatus: 200,
     },
   },
   (deets) => {
