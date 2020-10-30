@@ -132,7 +132,6 @@ const Mutation = {
     const options = {
       // httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
-      domain: "https://my-shopp.netlify.app",
     };
 
     //set cookie in browser
