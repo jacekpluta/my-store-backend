@@ -47,11 +47,11 @@ server.express.use(async (req, res, next) => {
   next();
 });
 
-// server.express.use(async (req, res, next) => {
-//   req.aaa = "aaa";
-
-//   next();
-// });
+server.express.use(async (req, res, next) => {
+  console.log(req.userId);
+  console.log(req.user);
+  next();
+});
 
 server.start(
   {
