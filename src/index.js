@@ -14,6 +14,7 @@ server.get("/home", (req, res) => {
 server.express.use(cookieParser());
 
 server.express.use((req, res, next) => {
+  req.cookies.token = "lololo";
   const token = req.cookies.token;
 
   if (token) {

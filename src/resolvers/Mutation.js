@@ -94,7 +94,6 @@ const Mutation = {
 
     //set cookie
     ctx.response.cookie("token", token, {
-      httpOnly: false,
       maxAge: 1000 * 60 * 60 * 24 * 365,
     });
 
@@ -141,7 +140,7 @@ const Mutation = {
 
     console.log(
       "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      ctx.response
+      response
     );
 
     // request.cookie("token", token, options);
@@ -221,7 +220,6 @@ const Mutation = {
 
     //set cookie
     ctx.response.cookie("token", token, {
-      httpOnly: false,
       maxAge: 1000 * 60 * 60 * 24 * 365,
     });
 
