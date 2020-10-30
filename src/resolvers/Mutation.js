@@ -106,7 +106,7 @@ const Mutation = {
     info
   ) {
     email = email.toLowerCase();
-
+    console.log(process.env.NODE_ENV || "development");
     //checl for user with that email
     const user = await db.query.user({ where: { email: email } });
 
