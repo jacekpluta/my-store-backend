@@ -130,26 +130,11 @@ const Mutation = {
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     const options = {
-      maxAge: 1000 * 60 * 60 * 24, //expires in a day
-      // httpOnly: true, // cookie is only accessible by the server
-      // secure: process.env.NODE_ENV === 'prod', // only transferred over https
-      // sameSite: true, // only sent for requests to the same FQDN as the domain in the cookie
+      maxAge: 1000 * 60 * 60 * 24,
     };
 
+    //set cookie in browser
     response.cookie("token", token, options);
-
-    console.log(
-      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      response
-    );
-
-    // request.cookie("token", token, options);
-
-    // //set cookie
-    // response.cookie("token", token, {
-    //   httpOnly: false,
-    //   maxAge: 1000 * 60 * 60 * 24 * 365,
-    // });
 
     return user;
   },

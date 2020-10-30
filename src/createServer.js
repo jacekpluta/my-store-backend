@@ -14,12 +14,6 @@ function createServer() {
     resolverValidationOptions: {
       requireResolversForResolveType: false,
     },
-    playground: {
-      settings: {
-        // include cookies in the requests from the GraphQL playground
-        "request.credentials": "include",
-      },
-    },
     context: (req) => ({
       ...req,
       db,
