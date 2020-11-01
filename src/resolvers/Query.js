@@ -3,7 +3,13 @@ const { forwardTo } = require("prisma-binding");
 const Query = {
   item: forwardTo("db"),
   items: forwardTo("db"),
+
   itemsConnection: forwardTo("db"),
+
+  async itemLowercases(parent, args, ctx, info) {
+    return ctx.db.query.itemLowercases({}, info);
+  },
+
 
   async users(parent, args, ctx, info) {
     if (!ctx.request.userId) {

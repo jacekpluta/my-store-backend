@@ -55,6 +55,24 @@ type Item {
   brand: Brand! 
   category: Category!  
 }
+
+
+type ItemLowercase {
+  id: ID! @id
+  title: String!
+  description: String!
+  image: String
+  largeImage: String
+  price: Int!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+  user: User!
+  item: Item!
+  gender: Gender! 
+  brand: Brand! 
+  category: Category!  
+}
+
 type CartItem {
   id: ID! @id
   quantity: Int! @default(value:1)

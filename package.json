@@ -13,8 +13,6 @@
     "bcryptjs": "2.4.3",
     "cookie-parser": "^1.4.5",
     "dotenv": "8.2.0",
-    "graphql": "^0.13.2",
-    "graphql-cli": "^2.16.7",
     "graphql-yoga": "1.17.4",
     "jsonwebtoken": "8.5.1",
     "nodemailer": "^6.4.10",

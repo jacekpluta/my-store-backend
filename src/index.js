@@ -32,7 +32,7 @@ server.express.use(async (req, res, next) => {
     return next();
   }
 
-  //if logged check if is in the base
+
   try {
     const user = await db.query.user(
       { where: { id: req.userId } },
@@ -84,11 +84,3 @@ server.start(
     console.log(`server running on ${deets.port}`);
   }
 );
-
-// "Content-Type",
-// "Authorization",
-// "X-Requested-With",
-// "X-Forwarded-Proto",
-// "Cookie",
-// "Set-Cookie",
-// "*",

@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { randomBytes } = require("crypto");
 const { transport, makeEmail } = require("../mail");
 const stripe = require("../stripe");
-const { cookieOptions } = require("./cookieOptions");
+const { cookieOptions } = require("../cookieOptions");
 
 const Mutation = {
   async createItem(_parrent, args, ctx, info) {
@@ -16,13 +16,38 @@ const Mutation = {
         data: {
           // relationshop between an item and user
           user: {
-            connect: { id: ctx.request.userId.userId },
+            connect: { id: ctx.request.userId },
           },
           ...args,
         },
       },
       info
     );
+
+
+    await ctx.db.mutation.createItemLowercase(
+      {
+        data: {
+          // relationshop between an item and user
+          user: {
+            connect: { id: ctx.request.userId },
+          },
+          item: {
+            connect: { id: item.id},
+          },
+          title: args.title.toLowerCase(),
+          description: args.description.toLowerCase(),
+          price:args.price,
+          image:args.image,
+          largeImage:args.largeImage,
+          gender:args.gender,
+          brand: args.brand,
+          category: args.category
+        },
+      },
+      info
+    );
+
     return item;
   },
 
@@ -43,7 +68,7 @@ const Mutation = {
   },
 
   async deleteItem(_parrent, args, ctx, info) {
-    const currentUserId = ctx.request.userId.userId;
+    const currentUserId = ctx.request.userId;
     if (!currentUserId) {
       throw new Error("You must be logging in to do that");
     }
@@ -60,7 +85,7 @@ const Mutation = {
     }
     //check for permissions
     const currentUserPermissions = ctx.request.user.permissions;
-    if (currentUserPermissions.includes("USER" || "ITEMDELETE")) {
+    if (currentUserPermissions.includes("ADMIN" || "ITEMDELETE")) {
       return ctx.db.mutation.deleteItem({ where: { id: args.id } }, info);
     } else {
       throw new Error("You don't have permissions to delete that item");
@@ -75,7 +100,7 @@ const Mutation = {
     const password = await bcrypt.hash(args.password, 10);
 
     const permission = {
-      set: "ADMIN",
+      set: "USER",
     };
 
     const user = await ctx.db.mutation.createUser(
@@ -106,7 +131,7 @@ const Mutation = {
     info
   ) {
     email = email.toLowerCase();
-    console.log(process.env.NODE_ENV || "development");
+
     //checl for user with that email
     const user = await db.query.user({ where: { email: email } });
 
@@ -200,7 +225,7 @@ const Mutation = {
   },
 
   async updatePermissions(parrent, args, ctx, info) {
-    const userId = ctx.request.userId.userId;
+    const userId = ctx.request.userId;
     if (!userId) {
       throw new Error("You must be logging in to do that");
     }
@@ -238,9 +263,8 @@ const Mutation = {
   },
 
   async addToCart(parrent, args, ctx, info) {
-    const userId = ctx.request.userId.userId;
+    const userId = ctx.request.userId;
     const itemId = args.id;
-    const size = args.size;
 
     if (!userId) {
       throw new Error("You must be logged in to do that");
@@ -251,7 +275,7 @@ const Mutation = {
     });
 
     // //if alredy in the cart
-    if (cartItem.size === size) {
+    if (cartItem && cartItem.size === args.size) {
       return ctx.db.mutation.updateCartItem(
         {
           data: { quantity: cartItem.quantity + args.quantity },
@@ -276,7 +300,7 @@ const Mutation = {
   },
 
   async deleteCartItem(parrent, args, ctx, info) {
-    const userId = ctx.request.userId.userId;
+    const userId = ctx.request.userId;
     if (!userId) {
       throw new Error("You must be logging in to do that");
     }
@@ -292,7 +316,7 @@ const Mutation = {
   },
 
   async deleteCartItemWhenItemDeleted(parrent, args, ctx, info) {
-    const userId = ctx.request.userId.userId;
+    const userId = ctx.request.userId;
     if (!userId) {
       throw new Error("You must be logging in to do that");
     }
@@ -301,7 +325,7 @@ const Mutation = {
   },
 
   async createOrder(parrent, args, ctx, info) {
-    const userId = ctx.request.userId.userId;
+    const userId = ctx.request.userId;
     if (!userId) {
       throw new Error("You must be logging in to do that");
     }
