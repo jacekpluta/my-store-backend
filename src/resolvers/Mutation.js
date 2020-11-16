@@ -24,7 +24,6 @@ const Mutation = {
       info
     );
 
-
     await ctx.db.mutation.createItemLowercase(
       {
         data: {
@@ -33,16 +32,16 @@ const Mutation = {
             connect: { id: ctx.request.userId },
           },
           item: {
-            connect: { id: item.id},
+            connect: { id: item.id },
           },
           title: args.title.toLowerCase(),
           description: args.description.toLowerCase(),
-          price:args.price,
-          image:args.image,
-          largeImage:args.largeImage,
-          gender:args.gender,
+          price: args.price,
+          image: args.image,
+          largeImage: args.largeImage,
+          gender: args.gender,
           brand: args.brand,
-          category: args.category
+          category: args.category,
         },
       },
       info
@@ -55,10 +54,11 @@ const Mutation = {
     const updates = { ...args };
 
     delete updates.id;
-
+    console.log(updates);
     return ctx.db.mutation.updateItem(
       {
         data: updates,
+        id: args.id,
         where: {
           id: args.id,
         },
@@ -86,6 +86,14 @@ const Mutation = {
     //check for permissions
     const currentUserPermissions = ctx.request.user.permissions;
     if (currentUserPermissions.includes("ADMIN" || "ITEMDELETE")) {
+      const lowercaseItem = await ctx.db.query.itemLowercases({
+        where: { item: { id: args.id } },
+      });
+
+      ctx.db.mutation.deleteItemLowercase(
+        { where: { id: lowercaseItem[0].id } },
+        info
+      );
       return ctx.db.mutation.deleteItem({ where: { id: args.id } }, info);
     } else {
       throw new Error("You don't have permissions to delete that item");
@@ -271,7 +279,7 @@ const Mutation = {
     }
 
     const [cartItem] = await ctx.db.query.cartItems({
-      where: { user: { id: userId }, item: { id: itemId } },
+      where: { user: { id: userId }, item: { id: itemId }, size: args.size },
     });
 
     // //if alredy in the cart

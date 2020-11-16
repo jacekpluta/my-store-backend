@@ -70,7 +70,7 @@ type Query {
     skip: Int
     first: Int
   ): [Item]!
- 
+
   itemLowercases(
     where: ItemWhereInput
     orderBy: ItemOrderByInput

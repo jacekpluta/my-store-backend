@@ -32,7 +32,6 @@ server.express.use(async (req, res, next) => {
     return next();
   }
 
-
   try {
     const user = await db.query.user(
       { where: { id: req.userId } },
